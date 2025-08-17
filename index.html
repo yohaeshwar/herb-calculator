@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Home Herb Savings Calculator</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Using Inter font for a cleaner look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* A slightly softer gray */
+        }
+        /* Custom focus ring color */
+        .focus-ring-custom:focus {
+            --tw-ring-opacity: 1;
+            --tw-ring-color: rgba(34, 197, 94, var(--tw-ring-opacity));
+            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+        
+        <header class="text-center mb-10">
+            <div class="inline-flex items-center justify-center bg-green-100 rounded-full p-3 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01V8m0 0h.01M12 8h-1m8-5a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Advanced Herb Savings Calculator</h1>
+            <p class="text-gray-500 mt-2 text-lg">A realistic forecast of your savings, accounting for plant growth cycles.</p>
+        </header>
+
+        <!-- Main Calculator Form -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+            <form id="calcForm" class="space-y-8">
+                
+                <!-- Section 1: Location & Usage -->
+                <fieldset>
+                    <legend class="text-xl font-semibold text-green-700 mb-4 border-b-2 border-green-200 pb-2">1. Your Setup & Needs</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                            <select id="country" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition">
+                                <option value="USA">USA (USD)</option>
+                                <option value="UK">UK (GBP)</option>
+                                <option value="Germany">Germany (EUR)</option>
+                                <option value="India">India (INR)</option>
+                                <option value="Canada">Canada (CAD)</option>
+                                <option value="Australia">Australia (AUD)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="herb" class="block text-sm font-medium text-gray-700 mb-1">Herb</label>
+                            <select id="herb" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition">
+                                <option value="basil">Basil</option>
+                                <option value="mint">Mint</option>
+                                <option value="cilantro">Cilantro (Coriander)</option>
+                                <option value="rosemary">Rosemary</option>
+                                <option value="parsley">Parsley</option>
+                                <option value="thyme">Thyme</option>
+                                <option value="oregano">Oregano</option>
+                                <option value="dill">Dill</option>
+                                <option value="sage">Sage</option>
+                                <option value="chives">Chives</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Store Price per Bunch</label>
+                            <input type="number" id="price" step="0.01" min="0" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition">
+                        </div>
+                        <div>
+                            <label for="frequency" class="block text-sm font-medium text-gray-700 mb-1">Bunches Used per Week</label>
+                            <input type="number" id="frequency" step="0.1" min="0" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition" value="0.5">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Section 2: Costs -->
+                 <fieldset>
+                    <legend class="text-xl font-semibold text-green-700 mb-4 border-b-2 border-green-200 pb-2">2. Your Costs</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="setup" class="block text-sm font-medium text-gray-700 mb-1">One-Time Setup Cost</label>
+                            <input type="number" id="setup" step="0.01" min="0" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition">
+                        </div>
+                        <div>
+                            <label for="maintenance" class="block text-sm font-medium text-gray-700 mb-1">Monthly Maintenance</label>
+                            <input type="number" id="maintenance" step="0.01" min="0" required value="1.00" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Section 3: Growth Details -->
+                <fieldset>
+                    <legend class="text-xl font-semibold text-green-700 mb-4 border-b-2 border-green-200 pb-2">3. Growth Details (Defaults Provided)</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label for="firstHarvest" class="block text-sm font-medium text-gray-700 mb-1">First Harvest (Weeks)</label>
+                            <input type="number" id="firstHarvest" min="1" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition">
+                        </div>
+                        <div>
+                            <label for="yield" class="block text-sm font-medium text-gray-700 mb-1">Yield per Harvest (Bunches)</label>
+                            <input type="number" id="yield" step="0.1" min="0" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition">
+                        </div>
+                        <div>
+                            <label for="regrowth" class="block text-sm font-medium text-gray-700 mb-1">Regrowth Time (Weeks)</label>
+                            <input type="number" id="regrowth" min="1" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus-ring-custom transition">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit" class="w-full flex items-center justify-center gap-2 bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Calculate Realistic Savings
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div id="result" class="mt-12 bg-white p-6 sm:p-8 rounded-2xl shadow-xl" style="display:none;">
+            <h2 class="text-2xl sm:text-3xl font-bold text-center mb-8 text-gray-800">Your Savings Breakdown</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mb-8">
+                <div class="bg-green-50 p-5 rounded-xl border border-green-200">
+                    <p class="text-sm text-green-700 font-medium">Potential Annual Cost</p>
+                    <p id="annualCost" class="text-2xl font-bold text-green-800 mt-1"></p>
+                </div>
+                <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+                    <p class="text-sm text-blue-700 font-medium">First Year Net Savings</p>
+                    <p id="savings" class="text-2xl font-bold text-blue-800 mt-1"></p>
+                </div>
+                <div class="bg-yellow-50 p-5 rounded-xl border border-yellow-200">
+                    <p class="text-sm text-yellow-700 font-medium">Realistic Break-Even</p>
+                    <p id="breakeven" class="text-2xl font-bold text-yellow-800 mt-1"></p>
+                </div>
+            </div>
+            <div class="w-full h-80 mt-4">
+                <canvas id="savingsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const countryData = {
+            USA: { currency: 'USD', symbol: '$', avgPrice: 2.50, setupSuggest: 30 },
+            UK: { currency: 'GBP', symbol: '£', avgPrice: 1.50, setupSuggest: 25 },
+            Germany: { currency: 'EUR', symbol: '€', avgPrice: 1.80, setupSuggest: 30 },
+            India: { currency: 'INR', symbol: '₹', avgPrice: 30, setupSuggest: 500 },
+            Canada: { currency: 'CAD', symbol: '$', avgPrice: 2.75, setupSuggest: 40 },
+            Australia: { currency: 'AUD', symbol: '$', avgPrice: 3.00, setupSuggest: 40 }
+        };
+        const herbPriceAdjust = { basil: 1.1, mint: 1.0, cilantro: 0.9, rosemary: 1.2, parsley: 0.9, thyme: 1.2, oregano: 1.1, dill: 1.0, sage: 1.2, chives: 1.0 };
+        const herbGrowthData = {
+            basil: { firstHarvest: 6, yield: 0.7, regrowth: 3 },
+            mint: { firstHarvest: 8, yield: 1.0, regrowth: 2 },
+            cilantro: { firstHarvest: 5, yield: 0.8, regrowth: 4 },
+            rosemary: { firstHarvest: 12, yield: 0.5, regrowth: 6 },
+            parsley: { firstHarvest: 8, yield: 0.9, regrowth: 3 },
+            thyme: { firstHarvest: 10, yield: 0.6, regrowth: 5 },
+            oregano: { firstHarvest: 9, yield: 0.7, regrowth: 4 },
+            dill: { firstHarvest: 7, yield: 0.8, regrowth: 4 },
+            sage: { firstHarvest: 10, yield: 0.6, regrowth: 6 },
+            chives: { firstHarvest: 6, yield: 1.0, regrowth: 2 }
+        };
+
+        // --- DOM ELEMENTS ---
+        const form = document.getElementById('calcForm');
+        const countrySelect = document.getElementById('country');
+        const herbSelect = document.getElementById('herb');
+        const priceInput = document.getElementById('price');
+        const setupInput = document.getElementById('setup');
+        const firstHarvestInput = document.getElementById('firstHarvest');
+        const yieldInput = document.getElementById('yield');
+        const regrowthInput = document.getElementById('regrowth');
+        const resultDiv = document.getElementById('result');
+        let savingsChartInstance = null;
+
+        // --- FUNCTIONS ---
+        function updateDefaults() {
+            updatePrice();
+            updateGrowthDefaults();
+            const country = countrySelect.value;
+            const info = countryData[country];
+            setupInput.value = info.setupSuggest;
+            setupInput.placeholder = `e.g., ${info.setupSuggest}`;
+        }
+
+        function updatePrice() {
+            const country = countrySelect.value;
+            const herb = herbSelect.value;
+            const info = countryData[country];
+            const price = (info.avgPrice * herbPriceAdjust[herb]).toFixed(2);
+            priceInput.value = price;
+            priceInput.placeholder = `e.g., ${price}`;
+        }
+
+        function updateGrowthDefaults() {
+            const herb = herbSelect.value;
+            const growthInfo = herbGrowthData[herb];
+            firstHarvestInput.value = growthInfo.firstHarvest;
+            yieldInput.value = growthInfo.yield;
+            regrowthInput.value = growthInfo.regrowth;
+        }
+
+        function calculateSavings() {
+            // Get all user inputs
+            const country = countrySelect.value;
+            const { currency, symbol } = countryData[country];
+            const setup = parseFloat(setupInput.value);
+            const maintenance = parseFloat(document.getElementById('maintenance').value);
+            const price = parseFloat(priceInput.value);
+            const weeklyNeed = parseFloat(document.getElementById('frequency').value);
+            const timeToFirstHarvest = parseInt(firstHarvestInput.value);
+            const yieldPerHarvest = parseFloat(yieldInput.value);
+            const harvestFrequency = parseInt(regrowthInput.value);
+
+            // Weekly simulation
+            const weeklyMaintenance = maintenance / (52/12);
+            const weeklyStoreCostPotential = weeklyNeed * price;
+            
+            let cumulativeSavings = -setup;
+            let weeksUntilNextHarvest = timeToFirstHarvest;
+            let weeklyData = [];
+            let breakEvenWeek = -1;
+
+            for (let week = 1; week <= 52; week++) {
+                let homegrownSupply = 0;
+                weeksUntilNextHarvest--;
+                
+                if (weeksUntilNextHarvest <= 0) {
+                    homegrownSupply = yieldPerHarvest;
+                    weeksUntilNextHarvest = harvestFrequency; // Reset for next harvest
+                }
+
+                const neededFromStore = Math.max(0, weeklyNeed - homegrownSupply);
+                const actualStoreCost = neededFromStore * price;
+                const totalWeeklyOutlay = actualStoreCost + weeklyMaintenance;
+                const savingsThisWeek = weeklyStoreCostPotential - totalWeeklyOutlay;
+                
+                cumulativeSavings += savingsThisWeek;
+                weeklyData.push(cumulativeSavings);
+
+                if (cumulativeSavings > 0 && breakEvenWeek === -1) {
+                    breakEvenWeek = week;
+                }
+            }
+            
+            // Display results
+            const annualStoreCost = weeklyNeed * 52 * price;
+            document.getElementById('annualCost').innerText = `${symbol}${annualStoreCost.toFixed(2)}`;
+            document.getElementById('savings').innerText = `${symbol}${cumulativeSavings.toFixed(2)}`;
+            document.getElementById('breakeven').innerText = breakEvenWeek > 0 ? `~${(breakEvenWeek / 4.33).toFixed(1)} months` : "Over a year";
+
+            // Aggregate data for monthly chart
+            const chartLabels = Array.from({length: 12}, (_, i) => `Month ${i + 1}`);
+            const chartData = chartLabels.map((_, i) => {
+                const weekIndex = Math.min(Math.floor((i + 1) * (52/12)) - 1, 51);
+                return weeklyData[weekIndex].toFixed(2);
+            });
+            
+            createOrUpdateChart(chartLabels, chartData, currency, symbol);
+            resultDiv.style.display = 'block';
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function createOrUpdateChart(labels, data, currency, symbol) {
+            const ctx = document.getElementById('savingsChart').getContext('2d');
+            if (savingsChartInstance) savingsChartInstance.destroy();
+
+            savingsChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `Cumulative Savings (${currency})`,
+                        data: data,
+                        backgroundColor: data.map(v => v < 0 ? 'rgba(239, 68, 68, 0.7)' : 'rgba(34, 197, 94, 0.7)'),
+                        borderColor: data.map(v => v < 0 ? 'rgba(220, 38, 38, 1)' : 'rgba(22, 163, 74, 1)'),
+                        borderWidth: 1,
+                        borderRadius: 5,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { 
+                        y: { 
+                            ticks: { 
+                                callback: value => symbol + value,
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                }
+                            },
+                            grid: {
+                                color: '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                }
+                            },
+                             grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#1f2937',
+                            titleFont: { size: 14, family: "'Inter', sans-serif" },
+                            bodyFont: { size: 12, family: "'Inter', sans-serif" },
+                            callbacks: {
+                                label: context => `${context.dataset.label}: ${symbol}${parseFloat(context.parsed.y).toFixed(2)}`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+        countrySelect.addEventListener('change', updateDefaults);
+        herbSelect.addEventListener('change', updateDefaults);
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            calculateSavings();
+        });
+
+        // --- INITIALIZATION ---
+        updateDefaults();
+    </script>
+</body>
+</html>
