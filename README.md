@@ -1,7 +1,7 @@
 Advanced Herb Savings Calculator
 A web-based calculator that provides a realistic financial forecast of the savings from growing herbs at home versus buying them from the store.
 
-➡️ View the Live Demo Here (Replace this with your actual GitHub Pages link after you publish it!)
+➡️ View the Live Demo Here https://yohaeshwar.github.io/herb-calculator/
 
 (You can replace this placeholder with a real screenshot of your app!)
 
