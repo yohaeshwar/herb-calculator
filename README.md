@@ -3,7 +3,8 @@ A web-based calculator that provides a realistic financial forecast of the savin
 
 ➡️ View the Live Demo Here https://yohaeshwar.github.io/herb-calculator/
 
-(You can replace this placeholder with a real screenshot of your app!)
+<img width="1728" height="1027" alt="Desktop" src="https://github.com/user-attachments/assets/70bd2869-7dc7-4043-9066-a39af8c096ac" />
+<img width="575" height="1017" alt="Mobile" src="https://github.com/user-attachments/assets/7fae88fe-541d-480c-bf66-d8f053b9216b" />
 
 About The Project
 
